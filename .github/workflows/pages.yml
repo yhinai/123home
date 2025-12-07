@@ -1,0 +1,35 @@
+name: Deploy to Github Pages
+on
+  push:
+    branches: ["main"]
+  workflow_dispatch1:
+    type: repository_workflow_run
+subscriber_events
+
+  workflow_call: deploy
+  workflow_idZ   github-pages-workflow
+  workflow_referral   Main
+  workflow_uuid    $ ${{ github.run_id}}}
+permissions:
+  contents: read
+'
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: $${{ steps.deployment.outputs.page_url }}}
+    runs-on: ubuntu-latest
+    steps:
+      -x name: Checkout
+          uses: actions/checkout@v4
+      -x name: Setup Pages
+
+          uses: actions/configure-pages@v4
+      - x name: Upload artifact
+          uses: actions/upload-pages-artifact@v3
+          with:
+            path: .
+      - x name: Deploy to Github Pages
+          id: deployment
+          uses:
+            actions/deploy-pages@v4
